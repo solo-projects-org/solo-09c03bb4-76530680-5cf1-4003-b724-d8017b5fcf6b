@@ -1,0 +1,17 @@
+services:
+  receiver:
+    build: .
+    container_name: fastq-receiver
+    ports:
+      - "8080:8000"
+    environment:
+      # Shared file-byte quota for upload temp files + expanded FASTQ
+      # (files of passed batches keep counting). Default: 64 MiB.
+      MAX_FILE_BYTES: "67108864"
+      DATA_DIR: /data
+    volumes:
+      - fastq_data:/data
+    restart: unless-stopped
+
+volumes:
+  fastq_data:
